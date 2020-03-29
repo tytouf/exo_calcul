@@ -1,0 +1,124 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>Générateur d'exercices de calcul.</title>
+<style>
+@media all {
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+table {
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+td {
+    padding: 5px;
+}
+tr:nth-child(even) {background: #ddd}
+tr:nth-child(odd) {background: #fff}
+td.result {
+}
+
+}
+@media print {
+.dontprint {
+    display: none !important;
+}
+}
+</style>
+<script>
+
+function append_td_to_tr(tr, content, css) {
+    var td = document.createElement("td");
+    td.innerHTML = '<span class="' + css + '">' + content + '</span>';
+    tr.appendChild(td);
+}
+function generate() {
+    var operator = document.forms["paramForm"]["operators"].value;
+    var size = document.forms["paramForm"]["sizes"].value;
+    var n_tables = document.forms["paramForm"]["tables"].value;
+    var container = document.getElementById("container");
+    container.innerHTML = '';
+
+    for (n = 0; n < n_tables; n++) {
+        var table = document.createElement("table");
+        for (i = 0; i < size; i++) {
+            if (operator == '+') {
+                var a = Math.floor(1 + Math.random() * 9);
+                var b = Math.floor(1 + Math.random() * 9);
+            } else if (operator == '*') {
+                var a = Math.floor(1 + Math.random() * 9);
+                var b = Math.floor(1 + Math.random() * 9);
+            } else if (operator == '-') {
+                var a = Math.floor(5 + Math.random() * 5);
+                var b = Math.floor(Math.random() * 5);
+            }
+            var res = eval(a + operator + b);
+            var tr = document.createElement("tr");
+            append_td_to_tr(tr, a);
+            append_td_to_tr(tr, operator);
+            append_td_to_tr(tr, b);
+            append_td_to_tr(tr, "=");
+            append_td_to_tr(tr, res, 'result');
+            table.appendChild(tr);
+        }
+        container.appendChild(table);
+    }
+
+    // Reset check box to hide results
+    document.forms["paramForm"]["hide"].checked = false;
+}
+function toggleResults() {
+    var hide = document.forms["paramForm"]["hide"].checked;
+    var res_elts = document.getElementById("container").querySelectorAll(".result");
+    var display;
+    if (hide) {
+        display = "hidden";
+    } else {
+        display = "visible";
+    }
+    for (i = 0; i < res_elts.length; i++) {
+        res_elts[i].style.visibility = display;
+    }
+}
+</script>
+
+</head>
+<body>
+<div class="dontprint">
+    <h1>Paramètre pour générer un tableau :</h1>
+    <form name="paramForm">
+        <label>Choisir un opérateur :</label>
+        <select id="operators" name="operators">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+        </select>
+        <label>Choisir le nombre d'opérations :</label>
+        <select id="sizes" name="sizes">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+        <label>Choisir le nombre de tableaux :</label>
+        <select id="tables" name="tables">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+        <button type="button" onclick="generate();">Générer</button>
+        <input type="checkbox" value="0" name="hide" onclick="toggleResults();"><label>Cacher les résultats</label>
+    </form>
+    <p><em>Pour imprimer, vérifiez les options d'impression et assurez vous de cocher l'option pour imprimer les couleurs de fond.</em></p>
+</div>
+
+<div id="container">
+</div>
+
+</body>
+</html> 
