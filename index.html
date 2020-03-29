@@ -60,7 +60,7 @@ function generate() {
             var tr = document.createElement("tr");
             append_td_to_tr(tr, a);
             append_td_to_tr(tr, operator);
-            append_td_to_tr(tr, b);
+            append_td_to_tr(tr, b, 'b');
             append_td_to_tr(tr, "=");
             append_td_to_tr(tr, res, 'result');
             table.appendChild(tr);
@@ -71,9 +71,9 @@ function generate() {
     // Reset check box to hide results
     document.forms["paramForm"]["hide"].checked = false;
 }
-function toggleResults() {
-    var hide = document.forms["paramForm"]["hide"].checked;
-    var res_elts = document.getElementById("container").querySelectorAll(".result");
+function toggleVisible(elt_name) {
+    var hide = document.forms["paramForm"]['hide_' + elt_name].checked;
+    var res_elts = document.getElementById("container").querySelectorAll('.' + elt_name);
     var display;
     if (hide) {
         display = "hidden";
@@ -112,7 +112,8 @@ function toggleResults() {
             <option value="20">20</option>
         </select>
         <button type="button" onclick="generate();">Générer</button>
-        <input type="checkbox" value="0" name="hide" onclick="toggleResults();"><label>Cacher les résultats</label>
+        <input type="checkbox" value="0" name="hide_result" onclick="toggleVisible('result');"><label>Cacher les résultats</label>
+        <input type="checkbox" value="0" name="hide_b" onclick="toggleVisible('b');"><label>Cacher la deuxième opérande</label>
     </form>
     <p><em>Pour imprimer, vérifiez les options d'impression et assurez vous de cocher l'option pour imprimer les couleurs de fond.</em></p>
 </div>
