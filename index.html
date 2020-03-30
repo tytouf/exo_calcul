@@ -1,6 +1,7 @@
  <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>Générateur d'exercices de calcul.</title>
 <style>
 @media all {
@@ -59,7 +60,11 @@ function generate() {
             var res = eval(a + operator + b);
             var tr = document.createElement("tr");
             append_td_to_tr(tr, a);
-            append_td_to_tr(tr, operator);
+            if (operator == '*') {
+                append_td_to_tr(tr, '🞨');
+            } else {
+                append_td_to_tr(tr, operator);
+            }
             append_td_to_tr(tr, b, 'b');
             append_td_to_tr(tr, "=");
             append_td_to_tr(tr, res, 'result');
@@ -89,13 +94,13 @@ function toggleVisible(elt_name) {
 </head>
 <body>
 <div class="dontprint">
-    <h1>Paramètre pour générer un tableau :</h1>
+    <h1>Paramètres pour générer un tableau :</h1>
     <form name="paramForm">
         <label>Choisir un opérateur :</label>
         <select id="operators" name="operators">
             <option value="+">+</option>
             <option value="-">-</option>
-            <option value="*">*</option>
+            <option value="*">🞨</option>
         </select>
         <label>Choisir le nombre d'opérations :</label>
         <select id="sizes" name="sizes">
