@@ -74,7 +74,8 @@ function generate() {
     }
 
     // Reset check box to hide results
-    document.forms["paramForm"]["hide"].checked = false;
+    document.forms["paramForm"]["hide_result"].checked = false;
+    document.forms["paramForm"]["hide_b"].checked = false;
 }
 function toggleVisible(elt_name) {
     var hide = document.forms["paramForm"]['hide_' + elt_name].checked;
